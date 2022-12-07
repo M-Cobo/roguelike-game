@@ -1,7 +1,20 @@
-use rltk::{ Rltk, GameState };
+use rltk::{ Rltk, GameState, RGB };
 use specs::prelude::*;
 use std::cmp::{ max, min };
 use specs_derive::Component;
+
+#[derive(Component)]
+struct Position  {
+    x : i32,
+    y : i32,
+}
+
+#[derive(Component)]
+struct Renderable {
+    glyph: rltk::FontCharType,
+    fg: RGB,
+    bg: RGB,
+}
 
 struct State {}
 impl GameState for State {
