@@ -32,10 +32,25 @@ fn main() -> rltk::BError {
     let context = RltkBuilder::simple80x50()
         .with_title("Roguelike Tutorial")
         .build()?;
+
     let gs = State {
         ecs: World::new()
     };
+
     gs.ecs.register::<Position>();
     gs.ecs.register::<Renderable>();
+
+    for i in 0..10 {
+        gs.ecs
+            .create_entity()
+            .with(Position { x: i * 7, y: 20 }) 
+            .with(Renderable { 
+                glyph: rltk::to_cp437('☺'),
+                fg: RGB::named(rltk::RED),
+                bg: RGB::named(rltk::BLACK),
+            })
+            .build();
+    }
+
     rltk::main_loop(context, gs)
 }
