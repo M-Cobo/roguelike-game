@@ -1,6 +1,6 @@
 use rltk::{ Rltk, GameState, RGB };
-use specs::prelude::*;
-use std::cmp::{ max, min };
+use specs::{prelude::*, storage::GenericReadStorage};
+use std::{cmp::{ max, min }, io::Read};
 use specs_derive::Component;
 
 #[derive(Component)]
@@ -30,6 +30,20 @@ impl GameState for State {
 
         for(pos, render) in (&positions, &renderables).join() {
             ctx.set(pos.x, pos.y, render.fg, render.bg, render.glyph);
+        }
+    }
+}
+
+struct LeftWalker {}
+
+impl<'a> System<'a> for LeftWalker {
+    type SystemData = (ReadStorage<'a, LeftMover>,
+                        WriteStorage<'a, Position>);
+
+    fn run(&mut self, (lefty, mut pos): Self::SystemData) {
+        for (_lefty, pos) in (&lefty, &mut pos).join() {
+            pos.x -= 1;
+            if pos.x < 0 { pos.x = 79; }
         }
     }
 }
