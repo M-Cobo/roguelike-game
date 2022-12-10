@@ -93,6 +93,7 @@ fn main() -> rltk::BError {
                 fg: RGB::named(rltk::RED),
                 bg: RGB::named(rltk::BLACK),
             })
+            .with(LeftMover{})
             .build();
     }
 
