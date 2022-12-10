@@ -1,6 +1,6 @@
 use rltk::{ Rltk, GameState, RGB };
-use specs::{prelude::*, storage::GenericReadStorage};
-use std::{cmp::{ max, min }, io::Read};
+use specs::prelude::*;
+use std::cmp::{ max, min };
 use specs_derive::Component;
 
 #[derive(Component)]
@@ -25,6 +25,10 @@ struct State {
 
 impl GameState for State {
     fn tick(&mut self, ctx : &mut Rltk) {
+        ctx.cls();
+
+        self.run_systems();
+
         let positions = self.ecs.read_storage::<Position>();
         let renderables = self.ecs.read_storage::<Renderable>();
 
@@ -45,6 +49,14 @@ impl<'a> System<'a> for LeftWalker {
             pos.x -= 1;
             if pos.x < 0 { pos.x = 79; }
         }
+    }
+}
+
+impl State {
+    fn run_systems(&mut self) {
+        let mut lw = LeftWalker {};
+        lw.run_now(&self.ecs);
+        self.ecs.maintain();
     }
 }
 
