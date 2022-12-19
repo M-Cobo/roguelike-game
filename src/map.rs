@@ -8,7 +8,7 @@ pub enum TileType {
 }
 
 pub fn xy_idx(x: i32, y: i32) -> usize {
-    return (y as usize * 80) + x as usize;
+    (y as usize * 80) + x as usize
 }
 
 /// Makes a map with solid boundaries and 400 randomly placed walls. No guarantees that it won't
@@ -40,7 +40,7 @@ pub fn new_map_test() -> Vec<TileType> {
         }
     }
 
-    return map;
+    map
 }
 
 fn apply_room_to_map(room : &Rect, map: &mut [TileType]) {
@@ -51,6 +51,7 @@ fn apply_room_to_map(room : &Rect, map: &mut [TileType]) {
     }
 }
 
+/// Horizontal tunnel from the center of a room: (x1), to the center of another: (x2).
 fn apply_horizontal_tunnel(map: &mut [TileType], x1:i32, x2:i32, y:i32) {
     for x in min(x1,x2) ..= max(x1,x2) {
         let idx = xy_idx(x, y);
@@ -60,6 +61,7 @@ fn apply_horizontal_tunnel(map: &mut [TileType], x1:i32, x2:i32, y:i32) {
     }
 }
 
+/// Horizontal tunnel from the center of a room: (y1), to the center of another: (y2).
 fn apply_vertical_tunnel(map: &mut [TileType], y1:i32, y2:i32, x:i32) {
     for y in min(y1,y2) ..= max(y1,y2) {
         let idx = xy_idx(x, y);
