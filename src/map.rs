@@ -72,7 +72,7 @@ fn apply_vertical_tunnel(map: &mut [TileType], y1:i32, y2:i32, x:i32) {
 }
 
 /// This gives a handful of random rooms and corridors joining them together.
-pub fn new_map_rooms_and_corridors() -> Vec<TileType> {
+pub fn new_map_rooms_and_corridors() -> (Vec<Rect>, Vec<TileType>) {
     let mut map = vec![TileType::Wall; 80*50];
 
     let mut rooms : Vec<Rect> = Vec::new();
@@ -91,7 +91,7 @@ pub fn new_map_rooms_and_corridors() -> Vec<TileType> {
         let mut ok = true;
         for other_room in rooms.iter() {
             if new_room.intersect(other_room) {
-                ok = true;
+                ok = false;
             }
         }
 
@@ -114,7 +114,7 @@ pub fn new_map_rooms_and_corridors() -> Vec<TileType> {
         }
     }
 
-    map
+    (rooms, map)
 }
 
 pub fn draw_map(map: &[TileType], ctx: &mut Rltk) {
