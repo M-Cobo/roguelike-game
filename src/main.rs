@@ -14,6 +14,12 @@ pub struct State {
     ecs: World
 }
 
+impl State {
+    fn run_systems(&mut self) {
+        self.ecs.maintain();
+    }
+}
+
 impl GameState for State {
     fn tick(&mut self, ctx : &mut Rltk) {
         ctx.cls();
@@ -33,12 +39,6 @@ impl GameState for State {
     }
 }
 
-impl State {
-    fn run_systems(&mut self) {
-        self.ecs.maintain();
-    }
-}
-
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
     let context = RltkBuilder::simple80x50()
@@ -53,9 +53,9 @@ fn main() -> rltk::BError {
     gs.ecs.register::<Renderable>();
     gs.ecs.register::<Player>();
 
-    let (rooms, map) = new_map_rooms_and_corridors();
+    let map : Map = Map::new_map_rooms_and_corridors();
     gs.ecs.insert(map);
-    let (player_x, player_y) = rooms[0].center();
+    let (player_x, player_y) = map.rooms[0].center();
 
     gs.ecs
         .create_entity()
