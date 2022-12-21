@@ -1,4 +1,4 @@
-use rltk::{ RGB, Rltk, RandomNumberGenerator };
+use rltk::{ RGB, Rltk, RandomNumberGenerator, BaseMap, Algorithm2D, Point };
 use std::cmp::{ max, min };
 use super::{ Rect };
 
@@ -19,7 +19,7 @@ impl Map {
         (y as usize * self.width as usize) + x as usize
     }
     
-    fn apply_room_to_map(&self, room : &Rect) {
+    fn apply_room_to_map(&mut self, room : &Rect) {
         for y in room.y1 +1 ..= room.y2 {
             for x in room.x1 + 1 ..= room.x2 {
                 let idx = self.xy_idx(x, y);
@@ -98,6 +98,18 @@ impl Map {
         map
     }
     
+}
+
+impl Algorithm2D for Map {
+    fn dimensions(&self) -> Point {
+        Point::new(self.width, self.height)
+    }
+}
+
+impl BaseMap for Map {
+    fn is_opaque(&self, idx: usize) -> bool {
+        self.tiles[idx as usize] == TileType::Wall
+    }
 }
 
 pub fn draw_map(map: &[TileType], ctx: &mut Rltk) {
