@@ -1,5 +1,5 @@
 use specs::prelude::*;
-use specs_derive::Component;
+use specs_derive::*;
 use rltk::{ RGB };
 
 #[derive(Component)]
@@ -15,7 +15,7 @@ pub struct Renderable {
     pub bg: RGB,
 }
 
-#[derive(Component)]
+#[derive(Component, Debug)]
 pub struct Player {}
 
 #[derive(Component)]
@@ -24,3 +24,6 @@ pub struct Viewshed {
     pub range : i32,
     pub dirty : bool
 }
+
+#[derive(Component, Debug)]
+pub struct Monster {}
