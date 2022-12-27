@@ -6,7 +6,13 @@ use super::{ Viewshed, Position, Map, Player };
 pub struct VisibilitySystem {}
 
 impl<'a> System<'a> for VisibilitySystem {
-    type SystemData = ( WriteExpect<'a, Map>, Entities<'a>, WriteStorage<'a, Viewshed>, WriteStorage<'a, Position>, ReadStorage<'a, Player> );
+    type SystemData = ( WriteExpect<'a, Map>,
+                        Entities<'a>,
+                        WriteStorage<'a,
+                        Viewshed>,
+                        WriteStorage<'a,
+                        Position>,
+                        ReadStorage<'a, Player> );
 
     fn run(&mut self, data : Self::SystemData) {
         let (mut map, entities, mut viewshed, pos, player) = data;
