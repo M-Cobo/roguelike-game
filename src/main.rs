@@ -95,7 +95,7 @@ fn main() -> rltk::BError {
     let map : Map = Map::new_map_rooms_and_corridors();
     let (player_x, player_y) = map.rooms[0].center();
 
-    gs.ecs
+    let player_entity = gs.ecs
         .create_entity()
         .with(Position { x: player_x, y: player_y })
         .with(Renderable {
@@ -138,6 +138,7 @@ fn main() -> rltk::BError {
 
     gs.ecs.insert(map);
     gs.ecs.insert(Point::new(player_x, player_y));
+    gs.ecs.insert(player_entity);
 
     rltk::main_loop(context, gs)
 }
