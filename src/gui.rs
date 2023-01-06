@@ -2,7 +2,7 @@ use rltk::{ RGB, Rltk, Point };
 use specs::prelude::*;
 use super::{ CombatStats, Player, gamelog::GameLog, Map, Name, Position };
 
-pub fn draw_ui(ecs: &World, ctx : &mut Rltk) {
+pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
     ctx.draw_box(0, 43, 79, 6, RGB::named(rltk::WHITE), RGB::named(rltk::BLACK));
 
     let combat_stats = ecs.read_storage::<CombatStats>();
@@ -54,27 +54,27 @@ fn draw_tooltips(ecs: &World, ctx: &mut Rltk) {
         if mouse_pos.0 > 40 {
             let arrow_pos = Point::new(mouse_pos.0 - 2, mouse_pos.1);
             let left_x = mouse_pos.0 - width;
-            let mut y = mouse_pos.1;
+            let /*mut*/ y = mouse_pos.1;
             for s in tooltip.iter() {
                 ctx.print_color(left_x, y, RGB::named(rltk::WHITE), RGB::named(rltk::GRAY), s);
                 let padding = (width - s.len() as i32) - 1;
                 for i in 0..padding {
                     ctx.print_color(arrow_pos.x - i, y, RGB::named(rltk::WHITE), RGB::named(rltk::GRAY), &" ".to_string());
                 }
-                y += 1;
+                // y += 1;
             }
             ctx.print_color(arrow_pos.x, y, RGB::named(rltk::WHITE), RGB::named(rltk::GRAY), &"->".to_string());
         } else {
             let arrow_pos = Point::new(mouse_pos.0 + 1, mouse_pos.1);
             let left_x = mouse_pos.0 + 3;
-            let mut y = mouse_pos.1;
+            let /*mut*/ y = mouse_pos.1;
             for s in tooltip.iter() {
                 ctx.print_color(left_x + 1, y, RGB::named(rltk::WHITE), RGB::named(rltk::GRAY), s);
                 let padding = (width - s.len() as i32) - 1;
                 for i in 0..padding {
                     ctx.print_color(arrow_pos.x + 1 + i, y, RGB::named(rltk::WHITE), RGB::named(rltk::GRAY), &" ".to_string());
                 }
-                y += 1;
+                // y += 1;
             }
             ctx.print_color(arrow_pos.x, y, RGB::named(rltk::WHITE), RGB::named(rltk::GRAY), &"<-".to_string());
         }
