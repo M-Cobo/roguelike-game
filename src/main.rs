@@ -26,7 +26,7 @@ mod gamelog;
 mod spawner;
 
 #[derive(PartialEq, Copy, Clone)]
-pub enum RunState { AwaitingInput, PreRun, PlayerTurn, MonsterTurn }
+pub enum RunState { AwaitingInput, PreRun, PlayerTurn, MonsterTurn, ShowInventory }
 
 pub struct State {
     pub ecs: World
@@ -53,6 +53,9 @@ impl State {
 impl GameState for State {
     fn tick(&mut self, ctx: &mut Rltk) {
         ctx.cls();
+
+        draw_map(&self.ecs, ctx);
+        
         let mut newrunstate;
         {
             let runstate = self.ecs.fetch::<RunState>();
@@ -75,6 +78,11 @@ impl GameState for State {
                 self.run_systems();
                 newrunstate = RunState::AwaitingInput;
             }
+            RunState::ShowInventory => {
+                if gui::show_inventory(self, ctx) == gui::ItemMenuResult::Cancel {
+                    newrunstate = RunState::AwaitingInput;
+                }
+            }
         }
 
         {
@@ -83,8 +91,6 @@ impl GameState for State {
         }
 
         damage_system::delete_the_dead(&mut self.ecs);
-
-        draw_map(&self.ecs, ctx);
 
         let positions = self.ecs.read_storage::<Position>();
         let renderables = self.ecs.read_storage::<Renderable>();
