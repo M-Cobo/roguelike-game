@@ -1,6 +1,6 @@
 use rltk::{ RGB, RandomNumberGenerator };
 use specs::prelude::*;
-use super::{ CombatStats, Player, Renderable, Name, Position, Viewshed, Monster, BlocksTile, Rect, Item, Potion, map::MAPWIDTH };
+use super::{ CombatStats, Player, Renderable, Name, Position, Viewshed, Monster, BlocksTile, Rect, Item, ProvidesHealing, Consumable, map::MAPWIDTH };
 
 // Spawns the player and returns his/her entity object.
 pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
@@ -120,6 +120,7 @@ fn health_potion(ecs: &mut World, x: i32, y: i32) {
         })
         .with(Name{ name: "Health Potion".to_string() })
         .with(Item{})
-        .with(Potion{ heal_amount: 8 })
+        .with(Consumable{})
+        .with(ProvidesHealing{ heal_amount: 8 })
         .build();
 }
