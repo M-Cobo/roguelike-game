@@ -21,7 +21,7 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
 }
 
 const MAX_MONSTERS: i32 = 4;
-const MAX_ITEMS: i32 = 2;
+const MAX_ITEMS: i32 = 10; // 2
 
 /// Fills a room with stuff!
 pub fn spawn_room(ecs: &mut World, room: &Rect) {
