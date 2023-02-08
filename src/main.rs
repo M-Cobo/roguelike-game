@@ -33,7 +33,8 @@ pub enum RunState { AwaitingInput,
     ShowInventory, 
     ShowDropItem,
     ShowTargeting {range: i32, item: Entity},
-    MainMenu { menu_selection: gui::MainMenuSelection }
+    MainMenu { menu_selection: gui::MainMenuSelection },
+    SaveGame
 }
 
 pub struct State {
@@ -169,6 +170,9 @@ impl GameState for State {
                         }
                     }
                 }
+            }
+            RunState::SaveGame => {
+                newrunstate = RunState::MainMenu { menu_selection: gui::MainMenuSelection::LoadGame };
             }
         }
 
