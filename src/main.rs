@@ -1,6 +1,7 @@
 extern crate serde;
 use rltk::{ Rltk, GameState, Point };
 use specs::prelude::*;
+use specs::saveload::{ SimpleMarker, SimpleMarkerAllocator };
 
 mod components;
 pub use components::*;
@@ -221,6 +222,7 @@ fn main() -> rltk::BError {
     gs.ecs.register::<InflictsDamage>();
     gs.ecs.register::<AreaOfEffect>();
     gs.ecs.register::<Confusion>();
+    gs.ecs.register::<SimpleMarker<SerializeMe>>();
 
     let map: Map = Map::new_map_rooms_and_corridors();
     let (player_x, player_y) = map.rooms[0].center();
@@ -237,6 +239,7 @@ fn main() -> rltk::BError {
     gs.ecs.insert(player_entity);
     gs.ecs.insert(RunState::MainMenu { menu_selection: gui::MainMenuSelection::NewGame });
     gs.ecs.insert(gamelog::GameLog{ entries : vec!["Welcome to Rusty Roguelike".to_string()] });
+    gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
     rltk::main_loop(context, gs)
 }

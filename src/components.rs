@@ -118,3 +118,5 @@ pub struct  AreaOfEffect {
 pub struct  Confusion {
     pub turns: i32
 }
+
+pub struct SerializeMe;
