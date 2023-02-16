@@ -3,6 +3,7 @@ use specs::saveload::{ SimpleMarker, SerializeComponents, MarkedBuilder };
 use specs::error::NoError;
 use super::components::*;
 use std::fs::File;
+use std::path::Path;
 
 macro_rules! serialize_individually {
     ($ecs:expr, $ser:expr, $data:expr, $( $type:ty), *) => {
@@ -42,4 +43,8 @@ pub fn save_game(ecs: &mut World) {
 
     // Clean up
     ecs.delete_entity(savehelper).expect("Crash on cleanup");
+}
+
+pub fn does_save_exist() -> bool {
+    Path::new("./savegame.json").exists()
 }
