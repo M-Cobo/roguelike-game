@@ -123,3 +123,9 @@ pub struct  Confusion {
 }
 
 pub struct SerializeMe;
+
+// Special componentthat exists to help serialize the game data
+#[derive(Component, Serialize, Deserialize, Clone)]
+pub struct SerializationHelper {
+    pub map: super::map::Map
+}
