@@ -14,6 +14,10 @@ pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
         ctx.draw_bar_horizontal(28, 43, 51, stats.hp, stats.max_hp, RGB::named(rltk::RED), RGB::named(rltk::BLACK));
     }
 
+    let map = ecs.fetch::<Map>();
+    let depth = format!("Depth: {}", map.depth);
+    ctx.print_color(2, 43, RGB::named(rltk::YELLOW), RGB::named(rltk::BLACK), &depth);
+
     let log = ecs.fetch::<GameLog>();
 
     let mut y = 44;
