@@ -1,7 +1,6 @@
 use rltk::{ Rltk, VirtualKeyCode, Point };
 use specs::prelude::*;
-
-use super::{ Position, Player, Map, State, Viewshed, RunState, CombatStats, WantsToMelee, Item, gamelog::GameLog, WantsToPickupItem };
+use super::{ Position, Player, Map, State, Viewshed, RunState, CombatStats, WantsToMelee, Item, gamelog::GameLog, WantsToPickupItem, TileType };
 use std::cmp::{ max, min };
 
 pub fn try_move_player(delta_x: i32, delta_y: i32, ecs: &mut World)
@@ -34,6 +33,19 @@ pub fn try_move_player(delta_x: i32, delta_y: i32, ecs: &mut World)
             ppos.y = pos.y;
             viewshed.dirty = true;
         }
+    }
+}
+
+pub fn try_next_level(ecs: &mut World) -> bool {
+    let player_pos = ecs.fetch::<Point>();
+    let map = ecs.fetch::<Map>();
+    let player_idx = map.xy_idx(player_pos.x, player_pos.y);
+    if map.tiles[player_idx] == TileType::DownStairs {
+        true
+    } else {
+        let mut gamelog = ecs.fetch_mut::<GameLog>();
+        gamelog.entries.push("There is no way down from here.".to_string());
+        false
     }
 }
 
@@ -94,6 +106,13 @@ pub fn player_input(gs: &mut State, ctx: &mut Rltk) -> RunState {
 
             VirtualKeyCode::Numpad1 |
             VirtualKeyCode::B => try_move_player(-1, 1, &mut gs.ecs),
+
+            // Level changes
+            VirtualKeyCode::Period => {
+                if try_next_level(&mut gs.ecs) {
+                    return RunState::NextLevel;
+                }
+            }
 
             // Pickin up Items
             VirtualKeyCode::G => get_item(&mut gs.ecs),
