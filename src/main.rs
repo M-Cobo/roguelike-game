@@ -27,6 +27,7 @@ mod gui;
 mod gamelog;
 mod spawner;
 pub mod saveload_system;
+pub mod random_table;
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum RunState { AwaitingInput, 
