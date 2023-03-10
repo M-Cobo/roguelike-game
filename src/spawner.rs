@@ -32,6 +32,7 @@ fn room_table(map_depth: i32) -> RandomTable {
         .add("Confusion Scroll", 2 + map_depth)
         .add("MagicMissile Scroll", 4)
         .add("Dagger", 3)
+        .add("Shield", 3)
 }
 
 const MAX_MONSTERS: i32 = 4;
@@ -77,6 +78,7 @@ pub fn spawn_room(ecs: &mut World, room: &Rect, map_depth: i32) {
             "Confusion Scroll" => confusion_scroll(ecs, x, y),
             "Magic Missile Scroll" => magic_missile_scroll(ecs, x, y),
             "Dagger" => dagger(ecs, x, y),
+            "Shield" => shield(ecs, x, y),
             _ => ()
         }
     }
@@ -185,6 +187,21 @@ fn dagger(ecs: &mut World, x: i32, y: i32) {
             render_order: 2
         })
         .with(Name{ name: "Dagger".to_string() })
+        .with(Item{})
+        .marked::<SimpleMarker<SerializeMe>>()
+        .build();
+}
+
+fn shield(ecs: &mut World, x: i32, y: i32) {
+    ecs.create_entity()
+        .with(Position{ x, y })
+        .with(Renderable{
+            glyph: rltk::to_cp437('('),
+            fg: RGB::named(rltk::CYAN),
+            bg: RGB::named(rltk::BLACK),
+            render_order: 2
+        })
+        .with(Name{ name: "Shield".to_string() })
         .with(Item{})
         .marked::<SimpleMarker<SerializeMe>>()
         .build();
