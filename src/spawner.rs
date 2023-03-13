@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use rltk::{ RGB, RandomNumberGenerator };
 use specs::prelude::*;
-use super::{ CombatStats, Player, Renderable, Name, Position, Viewshed, Monster, BlocksTile, Rect, Item, ProvidesHealing, Consumable, Ranged, InflictsDamage, AreaOfEffect, Confusion, map::MAPWIDTH, SerializeMe, random_table::RandomTable };
+use super::{ CombatStats, Player, Renderable, Name, Position, Viewshed, Monster, BlocksTile, Rect, Item, ProvidesHealing, Consumable, Ranged, InflictsDamage, AreaOfEffect, Confusion, Equippable, EquipmentSlot, map::MAPWIDTH, SerializeMe, random_table::RandomTable };
 use specs::saveload::{ MarkedBuilder, SimpleMarker };
 
 // Spawns the player and returns his/her entity object.
@@ -188,6 +188,7 @@ fn dagger(ecs: &mut World, x: i32, y: i32) {
         })
         .with(Name{ name: "Dagger".to_string() })
         .with(Item{})
+        .with(Equippable{ slot: EquipmentSlot::Melee })
         .marked::<SimpleMarker<SerializeMe>>()
         .build();
 }
@@ -203,6 +204,7 @@ fn shield(ecs: &mut World, x: i32, y: i32) {
         })
         .with(Name{ name: "Shield".to_string() })
         .with(Item{})
+        .with(Equippable{ slot: EquipmentSlot::Shield })
         .marked::<SimpleMarker<SerializeMe>>()
         .build();
 }
