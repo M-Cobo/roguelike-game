@@ -320,6 +320,7 @@ fn main() -> rltk::BError {
     gs.ecs.register::<SimpleMarker<SerializeMe>>();
     gs.ecs.register::<SerializationHelper>();
     gs.ecs.register::<Equippable>();
+    gs.ecs.register::<Equipped>();
     
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
