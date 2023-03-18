@@ -329,6 +329,8 @@ fn main() -> rltk::BError {
     gs.ecs.register::<SerializationHelper>();
     gs.ecs.register::<Equippable>();
     gs.ecs.register::<Equipped>();
+    gs.ecs.register::<MeleePowerBonus>();
+    gs.ecs.register::<DefenseBonus>();
     
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
